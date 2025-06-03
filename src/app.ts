@@ -1,19 +1,21 @@
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
 import { apiRouter } from "./routes";
 import { ItemModel } from "./models";
-import logger from "./logger";
+import * as middlewares from "./middlewares";
 
+// init store
 new ItemModel();
-const api = express();
 
-api.use(express.urlencoded({ extended: true }));
-api.use(express.json());
+const app = express();
 
-api.use((req: Request, _: Response, next: NextFunction) => {
-  logger.info(`${req.method} ${req.url}`);
-  next();
-});
+app.use(express.urlencoded({ extended: true }));
 
-api.use(apiRouter());
+app.use(express.json());
 
-api.listen(3000);
+app.use(middlewares.midCors);
+
+app.use(middlewares.midLogger);
+
+app.use(apiRouter());
+
+app.listen(3000);
