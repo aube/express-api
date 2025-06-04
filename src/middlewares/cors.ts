@@ -1,14 +1,13 @@
-import { NextFunction, Request, Response } from "express";
+import { RequestHandler } from "express";
 
-export function midCors(req: Request, res: Response, next: NextFunction) {
+export const midCors: RequestHandler = (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
-  // Handle preflight requests
   if (req.method === "OPTIONS") {
     return res.sendStatus(200);
   }
 
   next();
-}
+};
