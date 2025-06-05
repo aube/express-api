@@ -60,22 +60,24 @@ export class ItemModel {
     filter: string,
   ): { items: Item[]; li: number } => {
     const limit = size || 20;
-    const startIndex = isNaN(parseInt(filter)) ? 0 : parseInt(filter) - 1;
-    const from = Math.max(lastindex, startIndex, 0);
+    const from = Math.max(lastindex, 0);
     const arr: Item[] = new Array(limit);
 
     let i = 0;
     let n = from;
+    let firstEntry = 0;
 
     while (i < limit && n < LEN) {
       const item = getItemByIndex(n++);
       if (item.content.includes(filter)) {
+        firstEntry = firstEntry ? firstEntry : n;
         arr[i++] = item;
       }
     }
+
     return {
       items: arr,
-      li: n,
+      li: firstEntry,
     };
   };
 
