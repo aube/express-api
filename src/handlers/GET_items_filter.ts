@@ -4,11 +4,15 @@ import { ItemModel } from "../models";
 const model = new ItemModel();
 
 export const GET_items_filter = (req: Request, res: Response): void => {
-  const lastindex = Number(req.query.lastindex);
+  const from = Number(req.query.from) || 0;
   const size = Number(req.query.size);
   const filter = String(req.params.filter);
 
-  const { items, li } = model.getItemsFiltered(lastindex, size, filter);
+  const { items, lastIndex, firstEntry } = model.getItemsFiltered(
+    from,
+    size,
+    filter,
+  );
 
-  res.status(200).json({ items, lastindex: li, ...model.status() });
+  res.status(200).json({ items, lastIndex, firstEntry, ...model.status() });
 };

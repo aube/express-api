@@ -55,12 +55,11 @@ export class ItemModel {
   };
 
   public getItemsFiltered = (
-    lastindex: number,
+    from: number,
     size: number,
     filter: string,
-  ): { items: Item[]; li: number } => {
+  ): { items: Item[]; lastIndex: number; firstEntry: number } => {
     const limit = size || 20;
-    const from = Math.max(lastindex, 0);
     const arr: Item[] = new Array(limit);
 
     let i = 0;
@@ -77,7 +76,8 @@ export class ItemModel {
 
     return {
       items: arr,
-      li: firstEntry,
+      firstEntry: firstEntry,
+      lastIndex: n,
     };
   };
 
