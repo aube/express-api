@@ -92,7 +92,7 @@ describe("POST item mark", () => {
 
 describe("POST item sort", () => {
   const page = 1;
-  const shift = 5;
+  const after = 10;
   let firstItem: Item;
   let response: request.Response;
 
@@ -102,7 +102,7 @@ describe("POST item sort", () => {
 
     response = await request(api)
       .post("/items/" + firstItem.id + "/sort")
-      .send({ shift });
+      .send({ after });
   });
 
   it("response status is 200", async () => {
@@ -113,12 +113,26 @@ describe("POST item sort", () => {
     expect(response.body).toHaveProperty("id");
   });
 
-  it("moved item found on new position", async () => {
+  it("moved item found on new position after id:" + after, async () => {
     const response = await request(api)
       .get("/items")
       .send({ size: SIZE, page });
 
-    const sortedItem = response.body.items[shift];
+    const sortedItem = response.body.items[after - 1];
+
+    expect(sortedItem.id).toEqual(firstItem.id);
+  });
+
+  it("moved item return to first position", async () => {
+    await request(api)
+      .post("/items/" + firstItem.id + "/sort")
+      .send({ before: 2 });
+
+    const response = await request(api)
+      .get("/items")
+      .send({ size: SIZE, page });
+
+    const sortedItem = response.body.items[0];
 
     expect(sortedItem.id).toEqual(firstItem.id);
   });

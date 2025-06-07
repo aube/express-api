@@ -81,8 +81,12 @@ export class ItemModel {
     };
   };
 
+  public getIndexById = (id: number): number => {
+    return ITEMS.findIndex((item) => item === id);
+  };
+
   public changePosition = (id: number, shift: number): Item => {
-    let index = ITEMS.findIndex((item) => item === id);
+    let index = this.getIndexById(id);
     let newIndex = index + shift;
 
     function moveItems<T extends Int8Array | Int32Array>(
@@ -111,7 +115,7 @@ export class ItemModel {
   };
 
   public markToggle = (id: number): Item => {
-    let index = ITEMS.findIndex((item) => item === id);
+    let index = this.getIndexById(id);
 
     MARKS[index] = Number(!MARKS[index]);
 

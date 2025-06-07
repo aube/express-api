@@ -8,8 +8,6 @@ const apiRouter = () => {
 
   router.post("/items/:id/sort", handlers.POST_items_id_sort);
 
-  router.get("/items/:filter", handlers.GET_items_filter);
-
   router.get("/items", handlers.GET_items);
 
   router.get("/", handlers.GET_root);

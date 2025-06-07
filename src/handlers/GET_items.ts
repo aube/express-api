@@ -1,13 +1,6 @@
 import { Request, Response } from "express";
-import { ItemModel } from "../models";
-
-const model = new ItemModel();
+import { getItems } from "../usecases/getItems";
 
 export const GET_items = (req: Request, res: Response): void => {
-  const page = Number(req.query.page);
-  const size = Number(req.query.size);
-
-  const items = model.getItems(page, size);
-
-  res.status(200).json({ items, ...model.status() });
+  res.status(200).json(getItems(req.query));
 };

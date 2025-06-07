@@ -22,6 +22,8 @@ app.use(middlewares.midLogger);
 
 app.use(apiRouter());
 
+app.use(middlewares.midErrors);
+
 app.listen(PORT, ADDRESS, () => {
   console.log("Server started at", ADDRESS, ", port:", PORT);
 });
