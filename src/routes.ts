@@ -10,6 +10,8 @@ const apiRouter = () => {
 
   router.get("/items", handlers.GET_items);
 
+  router.put("/items", handlers.PUT_items);
+
   router.get("/", handlers.GET_root);
 
   return router;
