@@ -58,26 +58,28 @@ export class ItemModel {
     from: number,
     size: number,
     filter: string,
-  ): { items: Item[]; lastIndex: number; firstEntry: number } => {
+  ): { items: Item[]; firstEntry: number; lastEntry: number } => {
     const limit = size || 20;
     const arr: Item[] = new Array(limit);
 
     let i = 0;
     let n = from;
     let firstEntry = 0;
+    let lastEntry = 0;
 
     while (i < limit && n < LEN) {
       const item = getItemByIndex(n++);
       if (item.content.includes(filter)) {
         firstEntry = firstEntry ? firstEntry : n;
+        lastEntry = n;
         arr[i++] = item;
       }
     }
 
     return {
       items: arr,
-      firstEntry: firstEntry,
-      lastIndex: n,
+      firstEntry,
+      lastEntry,
     };
   };
 
